@@ -22,6 +22,12 @@ export default function TestForm(props) {
   const handleOnChange = (event) => {
     setText(event.target.value);
   };
+
+  const handleExtraSpaces = () => {
+    let newText = text.split(/[ ]+/);
+    setText(newText.join(" "));
+  }
+
   const [text, setText] = useState("");
 
   return (
@@ -36,25 +42,28 @@ export default function TestForm(props) {
           id="myBox"
           rows={8}
         />
-        <button className="btn btn-primary mx-2 my-3 btn-sm" onClick={handleUpClick}>
+        <button disabled={text.length===0} className="btn btn-primary mx-1 my-2  btn-sm" onClick={handleUpClick}>
           Convert To UpperCase
         </button>
-        <button className="btn btn-primary my-3 btn-sm" onClick={handleLoClick}>
+        <button disabled={text.length===0} className="btn btn-primary mx-1 my-2 btn-sm" onClick={handleLoClick}>
           Convert To LowerCase
         </button>       
-        <button className="btn btn-primary mx-2 my-3 btn-sm" onClick={handleClearClick}>
+        <button disabled={text.length===0} className="btn btn-primary mx-1 my-2  btn-sm" onClick={handleClearClick}>
           Clear Text
-        </button>
-        <button className="btn btn-primary my-3 btn-sm" onClick={handleCopy}>
+        </button> 
+        <button disabled={text.length===0}  className="btn btn-primary mx-1 my-2  btn-sm" onClick={handleCopy}>
           Copy Text
+        </button>
+        <button disabled={text.length===0}  className="btn btn-primary mx-1 my-2  btn-sm" onClick={handleExtraSpaces}>
+          Remove Extra spaces
         </button>
       </div>
 
       <div className="container " style={{color: props.mode==='light'?'black':'white'}}>
-        <p>{text.split(" ").length} Words and {text.length} Characters</p>
-        <p>{0.005 * text.split(" ").length } Minutes Takes to complete Read</p>
+        <p>{text.split(/\s+/).filter((element)=>{return element.length!==0}).length} Words and {text.length} Characters</p>
+        <p>{0.008 * text.split(/\s+/).filter((element)=>{return element.length!==0}).length } Minutes Takes to complete Read</p>
         <h3 style={{color: props.mode==='light'?'black':'yellow'}}>Preview</h3>
-        <p>{text.length>0?text:"Enter something in above Text box to preview"}</p>
+        <p>{text.length>0?text:"Nothing in Preview"}</p>
       </div>
 
     </>
